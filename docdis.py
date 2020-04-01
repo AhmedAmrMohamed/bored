@@ -6,6 +6,13 @@ class DocDis:
             vic[word] = vic.get(word,0)+1
         return vic
     
+    def procword(self,word):
+        word = word.lower()
+        if '\'re' in word:
+            word = word.split('\'')
+            word[1] = 'are'
+            word = ' '.join(word)
+        return word
     def dotproduct(self,fv,sv):
         val = 0
         for word in fv:
@@ -29,4 +36,4 @@ a = sys.argv[1:]
 a = ' '.join(a)
 a = a.split(',')
 x = DocDis() 
-print(a[0],a[1],x.dist(a[0],a[1]))
+print('distance', x.dist(a[0],a[1]))
