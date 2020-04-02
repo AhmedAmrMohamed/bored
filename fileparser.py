@@ -1,13 +1,12 @@
 import re
 class FileParser:
     def __init__(self):
-        self.strfile = strfile
         self.enum    = {'ID':0, 'STA':1, 'SUB':2 }
-        self.lineId  = {}
-        self.idSTA   = {}
+        self.linesta = {}
+        # self.idSTA   = {}
         self.idmatch = re.compile('[\\d]+')
         self.stamatch= re.compile('-->')
-        x.reader()
+        # self.reader()
 
     def reader(self,strfile): 
         '''
@@ -46,8 +45,8 @@ class FileParser:
         like: whitespaces, \\n, ...
         '''
         line  = ' '.join(subline)
-        self.lineId[line]  = iden
-        self.idSTA[iden]   = timestamp
+        self.linesta[line]  = timestamp
+        # self.idSTA[iden]   = timestamp
 
 
 # x = FileParser('extra/gen.srt')
