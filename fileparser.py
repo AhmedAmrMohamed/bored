@@ -1,29 +1,61 @@
+import re
 class FileParser:
-    def __init__(self,strfile):
+    def __init__(self):
         self.strfile = strfile
         self.enum    = {'ID':0, 'STA':1, 'SUB':2 }
         self.lineId  = {}
         self.idSTA   = {}
+        self.idmatch = re.compile('[\\d]+')
+        self.stamatch= re.compile('-->')
+        x.reader()
 
-    def reader(self): 
+    def reader(self,strfile): 
         '''
         transverse the strfile one line at a time
         '''
-        pass
+        subline   = []
+        timestamp = None
+        fil = open(strfile,'r')
+        for line in fil:
+            line = line.rstrip()
+            gen = self.classify(line)
+            # print(gen)
+            if gen == self.enum['ID']:
+                self.procline(int(line),subline,timestamp)
+                subline = []
+            elif gen == self.enum['STA']:
+                timestamp = line
+            else:
+                subline.append(line)
+        fil.close()
 
-    def classifyer(self,line):
+    def classify(self,line):
         '''
         return the line category
         ID, STA , SUB
         '''
-        pass
+        if self.idmatch.fullmatch(line):
+            return self.enum['ID']
+        if self.stamatch.search(line):
+            return self.enum['STA']
+        return self.enum['SUB']
 
-    def strip(self,line):
+    def procline(self,iden,subline,timestamp):
         ''' 
         remove all the unwanted chars from the line
         like: whitespaces, \\n, ...
         '''
-        pass
-  
+        line  = ' '.join(subline)
+        self.lineId[line]  = iden
+        self.idSTA[iden]   = timestamp
 
-   
+
+# x = FileParser('extra/gen.srt')
+# x.reader()
+# print(x.classify('1'))
+# print(x.classify('9231'))
+# print(x.classify('09213asd'))
+# print(x.classify('1848'))
+# print(x.classify('01:36:34,420 --> 01:36:38,390'))
+# print(x.classify('it is very much your business,'))
+# print(x.classify('and certainly your concern'))
