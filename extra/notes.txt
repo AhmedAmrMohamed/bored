@@ -1,0 +1,8 @@
+I've tested both "Document Distance" and "Edit Distance" approaches 
+and so far "Edit Distance" is given overall better results
+
+Values used for Edit Distance:
+	same   : -1
+	insert :  1
+	remove :  1
+	change :  2
