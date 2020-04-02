@@ -30,10 +30,12 @@ class DocDis:
         sv  = self.buildVector(secondLine)
         pr  = self.dotproduct(fv,sv)
         ab  = self.absolute(fv)*self.absolute(sv)
+        if ab==0:
+            return 0
         return pr/ab
-import sys
-a = sys.argv[1:]
-a = ' '.join(a)
-a = a.split(',')
-x = DocDis() 
-print('distance', x.dist(a[0],a[1]))
+# import sys
+# a = sys.argv[1:]
+# a = ' '.join(a)
+# a = a.split(',')
+# x = DocDis() 
+# print('distance', x.dist(a[0],a[1]))
