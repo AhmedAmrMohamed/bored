@@ -1,5 +1,5 @@
 # import docdis as ds
-import editdis as ds
+import bored.editdis as ds
 
 
 def main(inp):
