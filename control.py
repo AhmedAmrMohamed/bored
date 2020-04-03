@@ -4,14 +4,15 @@ import operator
 import time
 import os
 class Control:
-    def __init__(self,trgt,path=None):
+    def __init__(self,trgt,path=None,matchdegree = 10,change = 1,remove =1 , insert = 1):
         if not path:
             path = os.getcwd()
         print(path)
+        self.matchdegree = matchdegree
         self.trgt = trgt
         self.path = path
         self.fpob = FileParser()
-        self.edob = EditDis(1,1,1)
+        self.edob = EditDis(change,remove,insert)
         self.res  = []
         self.walker()
 
@@ -23,15 +24,17 @@ class Control:
         trgt   = self.trgt
         dist   = self.edob.dist
         lsta   = self.fpob.linesta
-        getitem= operator.getitem
-        for fil in os.listdir(path):
-            if '.srt' in fil:
-                reader(f'{path}/{fil}')
-                for line in lsta:
-                    dis = dist(trgt,line)
-                    # t1 = time.time()
-                    if dis < 10:
-                        append((dis,line))
+        mdeg   = self.matchdegree
+        for dire,igno,files in os.walk(path):
+            for fil in files:
+        # for fil in os.listdir(path):
+                if '.srt' in fil:
+                    # print(f'{dire}/{fil}')
+                    reader(f'{dire}/{fil}')
+                    for line in lsta:
+                        dis = dist(trgt,line)
+                        if dis < mdeg:
+                            append((dis,line))
         self.res.sort(key = lambda x:x[0])
 
     def search(self):
