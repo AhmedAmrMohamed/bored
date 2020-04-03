@@ -31,11 +31,12 @@ class Control:
         # for fil in os.listdir(path):
                 if '.srt' in fil:
                     # print(f'{dire}/{fil}')
-                    reader(f'{dire}/{fil}')
+                    fill = f'{dire}/{fil}'
+                    reader(fill)
                     for line in lsta:
                         dis = dist(trgt,line)
                         if dis < mdeg:
-                            append((dis,line))
+                            append((dis,line,lsta[line],fill))
 
     def search(self):
         append = self.res.append
