@@ -13,6 +13,12 @@ def main():
         if not os.path.isdir(path):
             print('directory not found')
             quit
-    print('working')
-    return control.Control(target,path)
+    print('please hold ...')
+    res =  control.Control(target,path)
+    mat = min(5,len(res.res))
+    print(f'here are the top {mat} matches')
+    while mat:
+        mat-=1
+        print(res.res.pop())
 
+main()
