@@ -3,26 +3,27 @@ class FileParser:
     def __init__(self):
         self.enum    = {'ID':0, 'STA':1, 'SUB':2 }
         self.linesta = {}
-        # self.idSTA   = {}
         self.idmatch = re.compile('[\\d]+')
         self.stamatch= re.compile('-->')
-        # self.reader()
 
     def reader(self,strfile): 
         '''
         transverse the strfile one line at a time
         '''
+        self.linesta.clear()
         subline   = []
         timestamp = None
+        classify = self.classify
+        enum     = self.enum
+        procline = self.procline
         fil = open(strfile,'r')
         for line in fil:
             line = line.rstrip()
-            gen = self.classify(line)
-            # print(gen)
-            if gen == self.enum['ID']:
-                self.procline(int(line),subline,timestamp)
+            gen  = classify(line)
+            if gen == enum['ID']:
+                procline(int(line),subline,timestamp)
                 subline = []
-            elif gen == self.enum['STA']:
+            elif gen == enum['STA']:
                 timestamp = line
             else:
                 subline.append(line)
