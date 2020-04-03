@@ -1,5 +1,6 @@
 from fileparser import FileParser
 from editdis    import EditDis
+from heap       import Heap
 import operator
 import time
 import os
@@ -13,14 +14,14 @@ class Control:
         self.path = path
         self.fpob = FileParser()
         self.edob = EditDis(change,remove,insert)
-        self.res  = []
+        self.res  = Heap(max = False)
         self.walker()
 
     def walker(self):
         reader = self.fpob.reader
         search = self.search
         path   = self.path
-        append = self.res.append
+        append = self.res.insert
         trgt   = self.trgt
         dist   = self.edob.dist
         lsta   = self.fpob.linesta
@@ -35,7 +36,6 @@ class Control:
                         dis = dist(trgt,line)
                         if dis < mdeg:
                             append((dis,line))
-        self.res.sort(key = lambda x:x[0])
 
     def search(self):
         append = self.res.append
