@@ -3,6 +3,10 @@ import pickle
 class Cache:
     def __init__(self):
         self.cache = {}      #cache['filenodenumber'] = {(lastmodified, lsta)}
+        try:
+            self.load()
+        except Exception:
+            print('cache file not found')
     
     def get(self,file):
         ''' 
@@ -12,8 +16,11 @@ class Cache:
         '''
         ino,mtime =  self.getstats(file)
         cached    =  self.cache.get(ino,None)
+        # print(file,end = '')
         if not cached  or cached[0] != mtime:
+            # print('not found')
             return False
+        # print('found')
         return cached[1]
     
     def getstats(self,filepath):
@@ -24,7 +31,7 @@ class Cache:
 
     def put(self,file,val):
         ''' put into cache'''
-        ino,mtime = self.getstat(file)
+        ino,mtime = self.getstats(file)
         self.cache[ino] = (mtime,val)
         return val
 

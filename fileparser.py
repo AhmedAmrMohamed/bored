@@ -2,7 +2,7 @@ import re
 class FileParser:
     def __init__(self):
         self.enum    = {'ID':0, 'STA':1, 'SUB':2 }
-        self.linesta = {}
+        # self.linesta = {}
         self.idmatch = re.compile('[\\d]+')
         self.stamatch= re.compile('-->')
 
@@ -10,24 +10,26 @@ class FileParser:
         '''
         transverse the strfile one line at a time
         '''
-        self.linesta.clear()
+        # self.linesta.clear()
+        linesta   = {}
         subline   = []
         timestamp = None
-        classify = self.classify
-        enum     = self.enum
-        procline = self.procline
+        classify  = self.classify
+        enum      = self.enum
+        procline  = self.procline
         fil = open(strfile,'r')
         for line in fil:
             line = line.rstrip()
             gen  = classify(line)
             if gen == enum['ID']:
-                procline(int(line),subline,timestamp)
+                procline(int(line),subline,timestamp,linesta)
                 subline = []
             elif gen == enum['STA']:
                 timestamp = line
             else:
                 subline.append(line)
         fil.close()
+        return linesta
 
     def classify(self,line):
         '''
@@ -40,13 +42,13 @@ class FileParser:
             return self.enum['STA']
         return self.enum['SUB']
 
-    def procline(self,iden,subline,timestamp):
+    def procline(self,iden,subline,timestamp,linesta):
         ''' 
         remove all the unwanted chars from the line
         like: whitespaces, \\n, ...
         '''
         line  = ' '.join(subline)
-        self.linesta[line]  = timestamp
+        linesta[line]  = timestamp
         # self.idSTA[iden]   = timestamp
 
 

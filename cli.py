@@ -33,5 +33,4 @@ def getConf():
         r = f.read()
         return json.loads(r)
 
-
 main()

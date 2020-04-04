@@ -3,5 +3,5 @@
 	"insert" : 1,
 	"change" : 1,
 	"acceptableMatchDgree": 10,
-	"topres" : 30
+	"topres" : 6
 } 

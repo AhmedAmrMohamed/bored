@@ -1,6 +1,7 @@
 from fileparser import FileParser
 from editdis    import EditDis
 from heap       import Heap
+from cache      import Cache
 import operator
 import time
 import os
@@ -14,6 +15,7 @@ class Control:
         self.path = path
         self.fpob = FileParser()
         self.edob = EditDis(change,remove,insert)
+        self.caob = Cache()
         self.res  = Heap(max = False)
         self.walker()
 
@@ -24,19 +26,20 @@ class Control:
         append = self.res.insert
         trgt   = self.trgt
         dist   = self.edob.dist
-        lsta   = self.fpob.linesta
         mdeg   = self.matchdegree
         for dire,igno,files in os.walk(path):
             for fil in files:
-        # for fil in os.listdir(path):
                 if '.srt' in fil:
-                    # print(f'{dire}/{fil}')
                     fill = f'{dire}/{fil}'
-                    reader(fill)
+                    lsta = self.caob.get(fill)
+                    if not lsta:
+                        lsta = reader(fill)
+                        self.caob.put(fill,lsta)
                     for line in lsta:
                         dis = dist(trgt,line)
                         if dis < mdeg:
                             append((dis,line,lsta[line],fill))
+        self.caob.dump()
 
     def search(self):
         append = self.res.append
