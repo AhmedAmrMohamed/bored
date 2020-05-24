@@ -6,7 +6,7 @@ class FileParser:
         self.idmatch = re.compile('[\\d]+')
         self.stamatch= re.compile('-->')
 
-    def reader(self,strfile): 
+    def reader(self,strfile):
         '''
         transverse the strfile one line at a time
         '''
@@ -17,7 +17,11 @@ class FileParser:
         classify  = self.classify
         enum      = self.enum
         procline  = self.procline
-        fil = open(strfile,'r')
+        fil = open(strfile,'r',encoding = 'UTF-8')
+        try:
+            fil.readline()
+        except Exception:
+            print(strfile)
         for line in fil:
             line = line.rstrip()
             gen  = classify(line)
@@ -43,7 +47,7 @@ class FileParser:
         return self.enum['SUB']
 
     def procline(self,iden,subline,timestamp,linesta):
-        ''' 
+        '''
         remove all the unwanted chars from the line
         like: whitespaces, \\n, ...
         '''
